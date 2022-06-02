@@ -12,4 +12,4 @@ function size(cms) {
 expect(size(38)).equals('S');
 expect(size(40)).equals('L');
 expect(size(43)).equals('M');
-// console.log('All is well (maybe!)');
+console.log('All is well (maybe!)');

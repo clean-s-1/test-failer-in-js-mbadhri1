@@ -1,16 +1,27 @@
-const {expect} = require('chai')
-
-function print_color_map() {
-    const majorColors = ["White", "Red", "Black", "Yellow", "Violet"];
-    const minorColors = ["Blue", "Orange", "Green", "Brown", "Slate"];
-    for (let i = 0; i < majorColors.length; i++) {
-        for (let j = 0; j < minorColors.length; j++) {
-            console.log(`${i * 5 + j} | ${majorColors[i]} | ${minorColors[j]}`);
-        }
-    }
-    return majorColors.length * minorColors.length;
+const { expect } = require('chai');
+const majorColors = ['White', 'Red', 'Black', 'Yellow', 'Violet'];
+const minorColors = ['Blue', 'Orange', 'Green', 'Brown', 'Slate'];
+function print_color_map(colorMap) {
+	for (const colorNumber in colorMap) {
+		console.log(
+			`${colorNumber} | ${colorMap[colorNumber].majorColor} | ${colorMap[colorNumber].minorColor}`
+		);
+	}
+	return Object.keys(colorMap).length;
 }
 
-result = print_color_map();
-expect(result).equals(25);
+function findColorMap(majorColors, minorColors) {
+	colorMap = {};
+	for (let i = 0; i < majorColors.length; i++) {
+		for (let j = 0; j < minorColors.length; j++) {
+			colorMap[i * 5 + j] = {
+				majorColor: majorColors[i],
+				minorColor: minorColors[j],
+			};
+		}
+	}
+	return colorMap;
+}
+
+expect(print_color_map(findColorMap(majorColors, minorColors))).equals(24);
 console.log('All is well (maybe!)');
