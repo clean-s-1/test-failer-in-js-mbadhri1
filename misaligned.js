@@ -24,6 +24,6 @@ function findColorMap(majorColors, minorColors) {
 }
 
 expect(print_color_map(findColorMap(majorColors, minorColors))).equals(
-	majorColors * minorColors + 1
+	majorColors.length * minorColors.length + 1
 );
 console.log('All is well (maybe!)');
