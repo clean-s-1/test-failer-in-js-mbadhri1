@@ -1,16 +1,79 @@
-const {expect} = require('chai')
+const { expect } = require('chai');
+const majorColors = ['White', 'Red', 'Black', 'Yellow', 'Violet'];
+const minorColors = ['Blue', 'Orange', 'Green', 'Brown', 'Slate'];
+let colorMap = [];
 
-function print_color_map() {
-    const majorColors = ["White", "Red", "Black", "Yellow", "Violet"];
-    const minorColors = ["Blue", "Orange", "Green", "Brown", "Slate"];
-    for (let i = 0; i < majorColors.length; i++) {
-        for (let j = 0; j < minorColors.length; j++) {
-            console.log(`${i * 5 + j} | ${majorColors[i]} | ${minorColors[j]}`);
-        }
-    }
-    return majorColors.length * minorColors.length;
+class ColorMapper {
+	static majorColorPadEnd = 0;
+	static minorColorPadEnd = 0;
+	static colorNumberPadEnd = 0;
+	constructor(colorNumber, majorColor, minorColor) {
+		this.colorNumber = colorNumber;
+		this.majorColor = majorColor;
+		this.minorColor = minorColor;
+		ColorMapper.colorNumberPadEnd = ColorMapper.getPadEnd(
+			this.colorNumber.toString(),
+			ColorMapper.colorNumberPadEnd
+		);
+		ColorMapper.majorColorPadEnd = ColorMapper.getPadEnd(
+			this.majorColor.toString(),
+			ColorMapper.majorColorPadEnd
+		);
+		ColorMapper.minorColorPadEnd = ColorMapper.getPadEnd(
+			this.minorColor.toString(),
+			ColorMapper.minorColorPadEnd
+		);
+	}
+	static getPadEnd(string, maxStringLen) {
+		if (string.length > maxStringLen) {
+			maxStringLen = string.length;
+		}
+		return maxStringLen;
+	}
+}
+function print_color_map(colorMap) {
+	colorMap.forEach((colorObj) => {
+		colourFormatter(
+			colorObj.colorNumber,
+			ColorMapper.colorNumberPadEnd,
+			colorObj.majorColor,
+			ColorMapper.majorColorPadEnd,
+			colorObj.minorColor,
+			ColorMapper.minorColorPadEnd
+		);
+	});
+	return Object.keys(colorMap).length;
 }
 
-result = print_color_map();
-expect(result).equals(25);
+function findColorMap(majorColors, minorColors) {
+	for (let i = 0; i < majorColors.length; i++) {
+		for (let j = 0; j < minorColors.length; j++) {
+			colorMap.push(
+				new ColorMapper(i * 5 + j + 1, majorColors[i], minorColors[j])
+			);
+		}
+	}
+	return colorMap;
+}
+
+function colourFormatter(
+	colorNumber,
+	colorNumberPadEnd,
+	majorColor,
+	majorColorPadEnd,
+	minorColor,
+	minorColorPadEnd
+) {
+	console.log(
+		`${colorNumber.toString().padEnd(colorNumberPadEnd, ' ')} | ${majorColor
+			.toString()
+			.padEnd(majorColorPadEnd, ' ')} | ${minorColor
+			.toString()
+			.padEnd(minorColorPadEnd, ' ')}`
+	);
+}
+
+expect(print_color_map(findColorMap(majorColors, minorColors))).equals(
+	majorColors.length * minorColors.length
+);
 console.log('All is well (maybe!)');
